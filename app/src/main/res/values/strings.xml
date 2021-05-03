@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FinalApp</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="name">Ritik Jain</string>
+    <string name="msn_media_stack_news">MSN: Media Stack News</string>
+    <string name="general">General</string>
+    <string name="business">Business</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
