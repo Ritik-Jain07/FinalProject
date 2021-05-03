@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="12dp"
@@ -12,20 +13,36 @@
         android:layout_height="0dp"
         app:cardElevation="2dp"
         app:cardCornerRadius="5dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:foreground="@drawable/gradient"
-        android:src="@drawable/gradient" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:foreground="@drawable/gradient"
+                android:src="@drawable/gradient" />
+
+            <ImageView
+                android:id="@+id/favourites"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_baseline_bookmarks_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+
 
     <TextView
         android:id="@+id/textView"
@@ -58,6 +75,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/cardView" />
 
+    <!--    <ImageView-->
+    <!--        android:id="@+id/favourites"-->
+    <!--        android:layout_width="50dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:src="@drawable/ic_baseline_bookmarks_24"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        android:paddingEnd="5dp" />-->
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -70,18 +95,14 @@
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintStart_toEndOf="@+id/textView1"
-        tools:text="2019-10-09"
-        />
+        tools:text="2019-10-09" />
 
-    <ImageView
-        android:id="@+id/favourites"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_bookmark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView"
-        android:paddingEnd="5dp" />
-
-
+    <!--    <TextView-->
+    <!--        android:id="@+id/favourites"-->
+    <!--        android:layout_width="50dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:text="Fav"-->
+    <!--        android:src="@drawable/ic_baseline_bookmarks_24"-->
+    <!--        android:paddingEnd="5dp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

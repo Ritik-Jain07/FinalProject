@@ -1,14 +1,20 @@
 package com.example.finalapp.model.modelclass
 
-import com.google.gson.annotations.SerializedName
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+@Entity(tableName = "News_Info")
 data class NewsModel(
+    @PrimaryKey
     @SerializedName("title")
     var title:String,
+    @ColumnInfo
     @SerializedName("url")
-    var url: String,
+    var url: String?,
     @SerializedName("image")
-    var image: String,
+    var image: String?,
     @SerializedName("description")
     var description:String,
     @SerializedName("source")
@@ -16,6 +22,6 @@ data class NewsModel(
     @SerializedName("published_at")
     var published:String,
 
-    var isFav:Boolean
+    var isFav:Boolean = false
 
 )
