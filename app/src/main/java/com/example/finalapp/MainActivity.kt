@@ -18,9 +18,8 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     private lateinit var  drawer: DrawerLayout
-    var dataList = ArrayList<NewsModel>()
     val TAG = MainActivity::class.java.simpleName
-    private val KEY = "163d19643270bc5175c96f6475eda9f8"
+
 
 
 
