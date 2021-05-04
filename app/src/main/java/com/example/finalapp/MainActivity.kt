@@ -13,14 +13,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.finalapp.view.fragments.*
-import com.example.finalapp.model.modelclass.NewsModel
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
-    private lateinit var  drawer: DrawerLayout
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var drawer: DrawerLayout
     val TAG = MainActivity::class.java.simpleName
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,40 +25,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
 
-
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         drawer = findViewById(R.id.drawer_layout)
-        val navigationView:NavigationView = findViewById(R.id.nav_view)
+        val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-        val toggle =  ActionBarDrawerToggle(this,drawer,toolbar,
+        val toggle = ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
 
         drawer.addDrawerListener(toggle)
 
         toggle.syncState()
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, GeneralFragment()).commit()
+                    .add(R.id.fragment_container, GeneralFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_general)
             if (!netConnectivity(applicationContext)) {
-                Toast.makeText(this,"No Internet",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "No Internet", Toast.LENGTH_LONG).show()
                 return
             }
-
-
         }
-
     }
+
+    /**
+     * Function to check the network connectivity in the mobile
+     * parameters passed : Context
+     * return type : boolean
+     */
 
     private fun netConnectivity(context: Context): Boolean {
         val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         if (capabilities != null) {
             if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
                 Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
@@ -77,17 +76,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false
     }
 
-    override fun onBackPressed(){
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+    /**
+     * Function to check if drawer is open and if back pressed drawer is closed
+     * Parameters passes : None
+     * return type : None
+     */
+
+    override fun onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
-        }else{
+        } else {
             super.onBackPressed()
         }
     }
 
+    /**
+     * Function to check which category is selected from the drawer and then load the respective fragment
+     * parameters passed : items in drawer
+     * return type : Boolean
+     */
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             (R.id.nav_general) -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container, GeneralFragment()).commit()
             (R.id.nav_business) -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container, BusinessFragment()).commit()
             (R.id.nav_health) -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HealthFragment()).commit()
@@ -101,6 +111,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //
@@ -140,11 +163,3 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 ////        return super.onCreateOptionsMenu(menu)
 //
 //    }
-
-//    private fun sendData(query:String){
-//        val bundle = Bundle()
-//        bundle.putString("Query",query)
-//        val fragment=Fragment()
-//        fragment.arguments=bundle
-//    }
-}

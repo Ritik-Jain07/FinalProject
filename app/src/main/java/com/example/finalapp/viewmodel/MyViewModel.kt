@@ -3,14 +3,10 @@ package com.example.finalapp.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import com.example.finalapp.model.modelclass.DataBaseNewsModel
-import com.example.finalapp.model.modelclass.DataModel
-import com.example.finalapp.model.NewsRepo
-import com.example.finalapp.model.modelclass.NewsModel
+import com.example.finalapp.model.DataModel
+import com.example.finalapp.repo.NewsRepo
+import com.example.finalapp.model.NewsModel
 import com.example.finalapp.saveditem.DatabaseBuilder
-import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import java.util.concurrent.Executors
 
 class MyViewModel(application: Application): AndroidViewModel(application) {
@@ -24,46 +20,48 @@ class MyViewModel(application: Application): AndroidViewModel(application) {
         mutableLiveData= newsRepo!!.mutableList
     }
 
-//    fun loadData(category: String): LiveData<DataModel> {
-//        if (mutableLiveData == null) {
-//            mutableLiveData = newsRepo!!.getData(category)
-//        }
-//        return mutableLiveData!!
-//    }
-//
+    /**
+     * Function to get data from Api based on category
+     * Parameters Passed : Category -> {general, health, science etc...}
+     */
     fun getDataFromNetwork(category: String){
         newsRepo!!.getData(category)
     }
+
+    /**
+     * Function to get data from Api based on category and keyword
+     * Parameters Passed : Category -> {general, health, science etc...} and keyword by user
+     */
 
     fun getDataFromNetworkWithKeyword(category: String,keyword:String){
         newsRepo!!.getDataWithKeyword(category,keyword)
     }
 
-    fun addAsFav(newsdata: NewsModel){
+    /**
+     * Function to add data in database
+     * Parameters passed : data : NewsModel type
+     * Return Type : None
+     */
+
+    fun addAsFav(newsData: NewsModel){
         Executors.newSingleThreadExecutor().execute {
             roomDatabaseBuilder.newsDao().insertData(
                 NewsModel(
-                    title = newsdata.title,
-                    url = newsdata.url,
-                    image = newsdata.image,
-                    published = newsdata.published,
-                    source = newsdata.source,
-                    description = newsdata.description,
+                    title = newsData.title,
+                    url = newsData.url,
+                    image = newsData.image,
+                    published = newsData.published,
+                    source = newsData.source,
+                    description = newsData.description,
                     isFav = true))
+        }
     }
-//    fun addSavedNews(newsdata: DataBaseNewsModel) {
-//        Executors.newSingleThreadExecutor().execute {
-//            roomDatabaseBuilder.newsDao().insertData(
-//                DataBaseNewsModel(
-//                    title = newsdata.title,
-//                    url = newsdata.url,
-//                    image = newsdata.image
-//                )
-//            )
-//        }
-//    }
-}
 
+    /**
+     * Function to delete data in database
+     * Parameters passed : data : NewsModel type
+     * Return Type : None
+     */
     fun deleteFav(newsData: NewsModel) {
         Executors.newSingleThreadExecutor().execute {
             roomDatabaseBuilder.newsDao().deleteData(
@@ -74,7 +72,7 @@ class MyViewModel(application: Application): AndroidViewModel(application) {
                     published = newsData.published,
                     source = newsData.source,
                     description = newsData.description,
-//                    isFav = false
+                    isFav = false
                 )
             )
         }

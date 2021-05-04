@@ -1,4 +1,4 @@
-package com.example.finalapp.model.retrofit
+package com.example.finalapp.apiretrofit
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -6,6 +6,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Singleton class for Api Client
+ * Parameters Passed : None
+ */
 object ApiClient {
 
     val BASE_URL = "http://api.mediastack.com/v1/"

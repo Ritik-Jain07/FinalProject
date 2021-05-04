@@ -1,7 +1,6 @@
 package com.example.finalapp.view.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -14,23 +13,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.finalapp.model.CustomAdapter
+import com.example.finalapp.adapter.CustomAdapter
 import com.example.finalapp.viewmodel.MyViewModel
 import com.example.finalapp.R
-import com.example.finalapp.WebActivity
-import com.example.finalapp.model.modelclass.DataBaseNewsModel
-import com.example.finalapp.model.modelclass.NewsModel
-import com.example.finalapp.saveditem.AppRoomDatabase
-import com.example.finalapp.saveditem.DatabaseBuilder
-import com.example.finalapp.saveditem.DatabaseBuilder.getInstance
 import kotlinx.android.synthetic.main.fragment_general.*
-import java.util.concurrent.Executors
 
 class GeneralFragment: Fragment() {
-    val dataList = ArrayList<NewsModel>()
     private lateinit var myViewModel: MyViewModel
     val TAG = GeneralFragment::class.java.simpleName
-    private lateinit var customAdapter: CustomAdapter
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -56,12 +47,10 @@ class GeneralFragment: Fragment() {
                     it.adapter = CustomAdapter(activity!!, list.data) { newsData ->
                         if (newsData.isFav) {
                             // insert here
-                            myViewModel.deleteFav(newsData)
-                            newsData.isFav = false
+                            myViewModel.addAsFav(newsData)
 
                         }else{
-                            myViewModel.addAsFav(newsData)
-                            newsData.isFav= true
+                            myViewModel.deleteFav(newsData)
                         }
                     }
                 }
@@ -77,11 +66,9 @@ class GeneralFragment: Fragment() {
                 it.adapter = CustomAdapter(activity!!, list.data){ newsData ->
                     if (newsData.isFav) {
                         // insert here
-                        myViewModel.deleteFav(newsData)
-                        newsData.isFav = false
-                    }else{
                         myViewModel.addAsFav(newsData)
-                        newsData.isFav= true
+                    }else{
+                        myViewModel.deleteFav(newsData)
                     }
                 }
             }
@@ -101,10 +88,11 @@ class GeneralFragment: Fragment() {
         return inflater.inflate(R.layout.fragment_general, container, false)
     }
 
-    /*Function to check the net connectivity
-    Parameters passed : context
-    return type : boolean
-    */
+    /**
+     * Function to check the net connectivity
+     * Parameters passed : context
+     * return type : boolean
+     */
 
     private fun netConnectivity(context: Context): Boolean {
         val connectivityManager =

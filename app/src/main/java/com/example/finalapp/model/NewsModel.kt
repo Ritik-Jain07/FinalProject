@@ -1,5 +1,11 @@
-package com.example.finalapp.model.modelclass
+package com.example.finalapp.model
 
+/**
+ * Data class made for receiving the call of the API of the individual data
+ * Also made the table for Database
+ * Title is made as the primary key of the table
+ * Rest Column details contain: {url, image, description, source, and published}
+ */
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

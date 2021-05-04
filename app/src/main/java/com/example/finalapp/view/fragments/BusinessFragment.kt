@@ -13,21 +13,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.finalapp.model.CustomAdapter
+import com.example.finalapp.adapter.CustomAdapter
 import com.example.finalapp.viewmodel.MyViewModel
 import com.example.finalapp.R
-import com.example.finalapp.model.modelclass.DataBaseNewsModel
-import com.example.finalapp.saveditem.AppRoomDatabase
-import com.example.finalapp.saveditem.DatabaseBuilder
 import kotlinx.android.synthetic.main.fragment_business.*
-import java.util.concurrent.Executors
 
 class BusinessFragment:Fragment() {
 
 
     private lateinit var myViewModel: MyViewModel
-    private lateinit var customAdapter:CustomAdapter
-    private lateinit var roomDatabaseBuilder: AppRoomDatabase
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -38,10 +32,9 @@ class BusinessFragment:Fragment() {
             if (!netConnectivity(application)) {
                 Toast.makeText(activity, "No Internet", Toast.LENGTH_LONG).show()
             }
-            var query: String = ed_text_business.text.toString()
+            val query: String = ed_text_business.text.toString()
             myViewModel.getDataFromNetworkWithKeyword("business", query)
             myViewModel.mutableLiveData?.observe(viewLifecycleOwner, Observer { list ->
-//            Log.i("DATA",it.data.toString())
                 business_recyclerView.also {
                     it.layoutManager = LinearLayoutManager(requireContext())
                     it.setHasFixedSize(true)
@@ -49,6 +42,8 @@ class BusinessFragment:Fragment() {
                         if (newsData.isFav) {
                             // insert here
                             myViewModel.addAsFav(newsData)
+                        }else{
+                            myViewModel.deleteFav(newsData)
                         }
                     }
                 }
@@ -56,7 +51,6 @@ class BusinessFragment:Fragment() {
         }
         myViewModel.getDataFromNetwork("business")
         myViewModel.mutableLiveData?.observe(viewLifecycleOwner, Observer { list ->
-//            Log.i("DATA",it.data.toString())
             business_recyclerView.also {
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
@@ -65,19 +59,26 @@ class BusinessFragment:Fragment() {
                         // insert here
                         myViewModel.addAsFav(newsData)
                     }
+                    else{
+                        myViewModel.deleteFav(newsData)
+                    }
                 }
                 }
             }
         )
     }
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_business,container,false)
     }
 
-    /*Function to check the net connectivity
-    Parameters passed : context
-    return type : boolean
+    /**
+     * Function to check the net connectivity
+     * Parameters passed : context
+     * return type : boolean
     */
+
     private fun netConnectivity(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
